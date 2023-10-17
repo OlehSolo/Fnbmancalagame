@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <title>FNB Mancala Game</title>
+    <style type="text/css">
+        div, table {
+            margin: auto;
+        }
+
+        div.gameConsole {
+            width: 700px;
+        }
+
+        div.error {
+            color: red;
+        }
+
+        div.gameover {
+            color: green;
+        }
+
+        form, p, td {
+            text-align: center;
+        }
+
+        table {
+            padding: 10px;
+        }
+
+        td {
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="gameConsole">
+    {{#mancalaData}}
+    <table border="1">
+        <tr>
+            <td colspan="8">Right Player</td>
+        </tr>
+        <tr>
+            <td rowspan="2">{{mancalaRight}}</td>
+            {{#rightRow}}
+            <td>{{.}}</td>
+            {{/rightRow}}
+            <td rowspan="2">{{mancalaLeft}}</td>
+        </tr>
+        <tr>
+            {{#leftRow}}
+            <td>{{.}}</td>
+            {{/leftRow}}
+        </tr>
+        <tr>
+            <td colspan="8">Left Player</td>
+        </tr>
+    </table>
+
+    {{#errorMessage}}
+    <div class="error">
+        <p>{{errorMessage}}</p>
+    </div>
+    {{/errorMessage}}
+
+    {{#gameOverMessage}}
+    <div class="gameover">
+        <p>{{gameOverMessage}}</p>
+    </div>
+    {{/gameOverMessage}}
+
+    {{^gameOverMessage}}
+    <p>Player Turn:
+        {{#leftTurn}}Left{{/leftTurn}}
+        {{^leftTurn}}Right{{/leftTurn}}
+    </p>
+    <p>Select a pit</p>
+    <form action="/play" method="post">
+        <select id="index" name="index">
+            <option value="0">1</option>
+            <option value="1">2</option>
+            <option value="2">3</option>
+            <option value="3">4</option>
+            <option value="4">5</option>
+            <option value="5">6</option>
+        </select>
+        <input type="hidden" value="{{#leftTurn}}true{{/leftTurn}}{{^leftTurn}}false{{/leftTurn}}"
+               id="isLeftTurn"
+               name="isLeftTurn"/>
+        <button type="submit" value="Submit">GO</button>
+    </form>
+    {{/gameOverMessage}}
+
+    {{/mancalaData}}
+</div>
+</body>
+</html>
